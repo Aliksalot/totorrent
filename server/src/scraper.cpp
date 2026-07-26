@@ -1,10 +1,16 @@
-#include"./scraper.h"
+#include"scraper.h"
+#include"pbfetch.h"
+#include"utils/strutil.h"
+#include"third-party/json.hpp"
+
 #include<string>
+#include<string_view>
 #include<stdexcept>
+#include<iostream>
 
 namespace pbscrape {
 
-  std::string getHtml(const std::string& url) {
+  std::string getRaw(const std::string& url) {
     CURL* curl = curl_easy_init();
     if (!curl)
       throw std::runtime_error("Failed to initialize curl");
@@ -26,13 +32,37 @@ namespace pbscrape {
   }
 
   pbfetch::SearchList extractSearchPage(
-      const std::string& html) {
-    throw std::logic_error("TODO");
+      const std::string& raw) {
+    json entryListJson = json::parse(raw);
+
+    pbfetch::SearchList out;
+    for(const auto& itemJson: entryListJson) {
+      //std::cout << itemJson.dump() << '\n';
+      out.push_back(
+          pbfetch::SearchEntry::fromJson(itemJson));
+      std::cout << "Added " << out.back().name << '\n';
+    }
+
+    return out;
   }
 
   pbfetch::TorrentPage extractTorrentPage(
-      const std::string& html) {
-    throw std::logic_error("TODO");
+      const std::string& raw) {
+
+    json torrentPageJson = json::parse(raw);
+
+    return pbfetch::TorrentPage::fromJson(torrentPageJson);
   }
+
+  std::string constructTorrentCall(
+      const std::string& id) {
+    return std::string(PBAPI_INFO) + "?id=" + id;
+  }
+
+  std::string constructSearchCall(
+      const std::string& query) {
+    return std::string(PBAPI_SEARCH) + "?q=" + query +"&cat=0";
+  }
+
 
 }
