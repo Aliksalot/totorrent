@@ -1,6 +1,6 @@
-#include"scraper.h"
-#include"torrent.h"
-#include"fileserver.h"
+#include"src/scraper.h"
+#include"src/torrent.h"
+#include"src/fileserver.h"
 
 #include<iostream>
 #include<string>

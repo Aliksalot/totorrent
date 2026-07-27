@@ -17,6 +17,5 @@ namespace totorrent {
   void FileServer::handleHelloWorld(
     const httplib::Request& req, httplib::Response& res) {
     std::cout << "Hello, world!" << std::endl;
-    res.send
   }
 }
