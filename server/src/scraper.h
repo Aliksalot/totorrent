@@ -5,14 +5,14 @@
 #include"pbfetch.h"
 #include"utils/constants.h"
 
-namespace pbscrape {
+namespace totorrent {
 
   std::string getRaw(const std::string& url);
 
-  pbfetch::SearchList extractSearchPage(
+  SearchList extractSearchPage(
       const std::string& raw);
 
-  pbfetch::TorrentPage extractTorrentPage(
+  TorrentPage extractTorrentPage(
       const std::string& raw);
 
   std::string constructTorrentCall(

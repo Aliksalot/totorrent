@@ -11,9 +11,7 @@
 #include<libtorrent/torrent_handle.hpp>
 #include<libtorrent/torrent_status.hpp>
 
-
-
-namespace torrent {
+namespace totorrent {
 
   namespace lt = libtorrent;
 

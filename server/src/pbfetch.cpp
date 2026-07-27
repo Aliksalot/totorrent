@@ -6,7 +6,7 @@
 #include<stdexcept>
 #include <curl/curl.h>
 
-namespace pbfetch{
+namespace totorrent{
   json SearchEntry::toJson() const {
     throw std::runtime_error("TODO");
   }

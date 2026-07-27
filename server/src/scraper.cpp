@@ -8,7 +8,7 @@
 #include<stdexcept>
 #include<iostream>
 
-namespace pbscrape {
+namespace totorrent {
 
   std::string getRaw(const std::string& url) {
     CURL* curl = curl_easy_init();
@@ -31,27 +31,27 @@ namespace pbscrape {
     return response;
   }
 
-  pbfetch::SearchList extractSearchPage(
+  SearchList extractSearchPage(
       const std::string& raw) {
     json entryListJson = json::parse(raw);
 
-    pbfetch::SearchList out;
+    SearchList out;
     for(const auto& itemJson: entryListJson) {
       //std::cout << itemJson.dump() << '\n';
       out.push_back(
-          pbfetch::SearchEntry::fromJson(itemJson));
+          SearchEntry::fromJson(itemJson));
       std::cout << "Added " << out.back().name << '\n';
     }
 
     return out;
   }
 
-  pbfetch::TorrentPage extractTorrentPage(
+  TorrentPage extractTorrentPage(
       const std::string& raw) {
 
     json torrentPageJson = json::parse(raw);
 
-    return pbfetch::TorrentPage::fromJson(torrentPageJson);
+    return TorrentPage::fromJson(torrentPageJson);
   }
 
   std::string constructTorrentCall(

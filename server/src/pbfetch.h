@@ -7,7 +7,7 @@
 #include<cstdint>
 #include <curl/curl.h>
 
-namespace pbfetch {
+namespace totorrent {
 
   using json = nlohmann::json;
 

@@ -4,7 +4,7 @@
 
 #include<libtorrent/torrent_status.hpp>
 
-namespace torrent {
+namespace totorrent {
   class Torrent {
   public:
     Torrent(const std::string& out_dir, const std::string& magnet);
