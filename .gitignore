@@ -58,6 +58,8 @@ compile_commands.json
 *.bak
 *.swp
 
+downloaded_movies/
+
 # vcpkg
 vcpkg_installed/
 

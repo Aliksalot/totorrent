@@ -1,8 +1,13 @@
+#include"scraper.h"
+#include"torrent.h"
 
 #include<iostream>
-#include"./scraper.h"
 #include<string>
 #include<fstream>
+
+#include <libtorrent/session.hpp>
+#include <libtorrent/add_torrent_params.hpp>
+#include <libtorrent/magnet_uri.hpp>
 
 int main() {
   
@@ -24,6 +29,10 @@ int main() {
   out << "Expected:\n" <<correctMagnet<< '\n';
   std::cout << "  Dumpted both into file: magnet.log" << std::endl;
   std::cout << "  Are equal: " << std::boolalpha << (myMagnet == correctMagnet) << std::endl;
+
+  auto t = torrent::Torrent("../../downloaded_movies", myMagnet);
+
+  t.begin_seeding();
 
   return 0;
 }
