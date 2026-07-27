@@ -1,5 +1,6 @@
 #include"scraper.h"
 #include"torrent.h"
+#include"fileserver.h"
 
 #include<iostream>
 #include<string>
@@ -12,7 +13,10 @@
 using namespace totorrent;
 
 int main() {
+
+  std::cout << "Hello, let's get going" << std::endl;
   
+/*
   std::string raw = getRaw("https://apibay.org/q.php?q=sausage%20party&cat=");
 
   //std::cout << raw << std::endl;
@@ -34,6 +38,12 @@ int main() {
   auto t = Torrent("../../downloaded_movies", myMagnet);
 
   t.begin_seeding();
+*/
+  
+  FileServer server;
+
+  server.registerRoutes();
+  server.listen("0.0.0.0", 8080);
 
   return 0;
 }

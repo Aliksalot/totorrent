@@ -1,6 +1,8 @@
 #pragma once
 
-#include<httplib.h>
+#include"third-party/httplib.h"
+
+#include<string>
 
 namespace totorrent {
   class FileServer {
@@ -15,5 +17,5 @@ namespace totorrent {
         const httplib::Request& req, httplib::Response& res);
 
     httplib::Server svr_;
-  }
+  };
 }
