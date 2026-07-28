@@ -1,4 +1,4 @@
-#include "HttpClient.h"
+#include "httpclient.h"
 
 #include <curl/curl.h>
 #include <cstdio>

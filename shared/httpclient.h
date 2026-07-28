@@ -8,7 +8,7 @@
 typedef void CURL;
 struct curl_slist;
 
-namespace myapp {
+namespace totorrent {
 
 struct HttpResponse {
     long status;

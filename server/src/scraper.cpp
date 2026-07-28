@@ -2,6 +2,7 @@
 #include"pbfetch.h"
 #include"utils/strutil.h"
 #include"../../shared/third-party/json.hpp"
+#include"../../shared/httpclient.h"
 
 #include<string>
 #include<string_view>
@@ -11,24 +12,12 @@
 namespace totorrent {
 
   std::string getRaw(const std::string& url) {
-    CURL* curl = curl_easy_init();
-    if (!curl)
-      throw std::runtime_error("Failed to initialize curl");
-
-    std::string response;
-
-    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
-    curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
-    curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L); // follow redirects
-
-    CURLcode res = curl_easy_perform(curl);
-    curl_easy_cleanup(curl);
-
-    if (res != CURLE_OK)
-      throw std::runtime_error(curl_easy_strerror(res));
-
-    return response;
+    HttpClient httpClient;
+    auto response = httpClient.get(url);
+    if(response.status != 200) {
+      throw std::runtime_error(std::string("Couldn't get ") + url);
+    }
+    return response.body;
   }
 
   SearchList extractSearchPage(
