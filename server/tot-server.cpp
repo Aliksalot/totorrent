@@ -1,6 +1,8 @@
 #include"src/scraper.h"
 #include"src/torrent.h"
 #include"src/fileserver.h"
+#include"src/utils/strutil.h"
+#include"../shared/state.h"
 
 #include<iostream>
 #include<string>
@@ -16,13 +18,19 @@ int main() {
 
   std::cout << "Hello, let's get going" << std::endl;
   
-/*
-  std::string raw = getRaw("https://apibay.org/q.php?q=sausage%20party&cat=");
-
+  /*
+  std::string searchQuery = "sausage party";
+  std::cout << "escaped: " << escapedQuery << std::endl;
+  std::string uri = constructSearchCall(escapedQuery);
+  std::cout << "final uri: " << uri << std::endl;
+  std::string raw = getRaw(uri);
+  std::cout << "raw: " << raw << std::endl;
   //std::cout << raw << std::endl;
-  auto foo = extractSearchPage(raw);
+  SearchList foo = extractSearchPage(raw);
+  for(SearchEntry& e: foo) { }
   std::string raw1 = getRaw(
       constructTorrentCall("75920856"));
+  
   //std::cout << raw1 << std::endl;
   auto foo1 = extractTorrentPage(raw1);
   std::cout << "Got torrent: " << foo1.name << std::endl;
@@ -37,9 +45,9 @@ int main() {
 
   auto t = Torrent("../../downloaded_movies", myMagnet);
 
-  t.begin_seeding();
-*/
+  //t.begin_seeding();
   
+  */
   FileServer server;
 
   server.registerRoutes();

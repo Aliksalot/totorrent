@@ -1,7 +1,7 @@
 #include"scraper.h"
 #include"pbfetch.h"
 #include"utils/strutil.h"
-#include"third-party/json.hpp"
+#include"../../shared/third-party/json.hpp"
 
 #include<string>
 #include<string_view>
@@ -41,6 +41,7 @@ namespace totorrent {
       out.push_back(
           SearchEntry::fromJson(itemJson));
       std::cout << "Added " << out.back().name << '\n';
+      std::cout << "  Dump: \n" << out.back().toJson().dump() << '\n';
     }
 
     return out;

@@ -1,9 +1,6 @@
 #pragma once
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #include"third-party/cmdargs.h"
-#pragma GCC diagnostic pop
 
 namespace totorrent {
 
@@ -15,9 +12,9 @@ namespace totorrent {
 
     void run();
   private:
-    void handleSearch();
-    void handleDownload();
-    void handleLookAt();
+    void handleSearch(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs& flags);
+    void handleDownload(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs& flags);
+    void handleLookAt(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs& flags);
 
     cmdargs::CommandList<4> cl_;
     bool running = false;

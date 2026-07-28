@@ -36,21 +36,3 @@ inline std::string_view trim(std::string_view s) {
   return s.substr(start, end - start);
 }
 
-/// Designed to precisely match JS's encodeURIComponent
-inline std::string encodeSafeUri(const std::string& s) {
-  std::ostringstream out;
-  out << std::hex << std::uppercase;
-
-  for (unsigned char c : s) {
-    if (std::isalnum(c) ||
-      c == '-' || c == '_' || c == '.' || c == '~' ||
-      c == '!' || c == '*' || c == '\'' || c == '(' || c == ')') {
-      out << c;
-    } else {
-      out << '%' << std::setw(2) << std::setfill('0') << static_cast<int>(c);
-    }
-  }
-
-  return out.str();
-}
-

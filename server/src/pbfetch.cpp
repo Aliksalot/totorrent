@@ -1,63 +1,16 @@
 
 #include"pbfetch.h"
-#include"utils/constants.h"
+#include"scraper.h"
+#include"../../shared/constants.h"
+#include"../../shared/httpclient.h"
 #include"utils/strutil.h"
 
 #include<stdexcept>
 #include <curl/curl.h>
 
 namespace totorrent{
-  json SearchEntry::toJson() const {
-    throw std::runtime_error("TODO");
-  }
 
-  SearchEntry SearchEntry::fromJson(const json& j) {
-    return SearchEntry{
-      .name =
-        j.value("name", UNKNOWN_FIELD_VALUE),
-      .uploaded =
-        j.value("added", "0"),
-      .size =
-        j.value("size", "0"),
-      .seeders =
-        j.value("seeders", "0"),
-      .leder =
-        j.value("username", UNKNOWN_FIELD_VALUE),
-      .id =
-        j.value("id", "0")
-    };
-  }
-
-  json TorrentPage::toJson() const {
-    throw std::runtime_error("TODO");
-  }
-
-  TorrentPage TorrentPage::fromJson(const json& j) {
-    return TorrentPage{
-      .uploaded = 
-        j.value("added", -1),
-      .leder = 
-        j.value("username", UNKNOWN_FIELD_VALUE),
-      .seeders = 
-        j.value("seeders", 0),
-      .leechers =
-        j.value("leechers",0),
-      .name = 
-        j.value("name", UNKNOWN_FIELD_VALUE),
-      .descripton = 
-        j.value("descr", UNKNOWN_FIELD_VALUE),
-      .info_hash =
-        j.value("info_hash", UNKNOWN_FIELD_VALUE),
-      .status =
-        j.value("status", UNKNOWN_FIELD_VALUE),
-      .id = 
-        j.value("id", 0),
-      .size =
-        j.value("size", 0)
-    };
-  }
-
-  std::string TorrentPage::generateMagnet() const {
+  std::string TorrentPageUtils::generateMagnet() const {
     std::string out = "magnet:?xt=urn:btih:";
     out += info_hash + "&dn=";
     out += name;
@@ -65,11 +18,11 @@ namespace totorrent{
     return out;
   }
 
-  std::string TorrentPage::torrentTrackers() {
+  std::string TorrentPageUtils::torrentTrackers() {
     std::string tr;
 
     auto add_tracker = [&tr](const std::string& uri) {
-      tr += "&tr=" + encodeSafeUri(uri);
+      tr += "&tr=" + HttpClient::encodeURIComponent(uri);
       return tr;
     };
 
@@ -88,5 +41,19 @@ namespace totorrent{
     add_tracker("udp://tracker.internetwarriors.net:1337");
 
     return tr;
+  }
+
+  SearchList search(const std::string& query) {
+    std::string uri = constructSearchCall(
+        HttpClient::encodeURIComponent(query));
+    std::string raw = getRaw(uri);
+    SearchList out = extractSearchPage(raw);
+    return out;
+  }
+  TorrentPage page(const std::string& torrentId) {
+    std::string uri = constructTorrentCall(torrentId);
+    std::string raw = getRaw(uri);
+    TorrentPage out = extractTorrentPage(raw);
+    return out;
   }
 }

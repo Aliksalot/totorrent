@@ -3,7 +3,7 @@
 #include <curl/curl.h>
 #include <string>
 #include"pbfetch.h"
-#include"utils/constants.h"
+#include"../../shared//constants.h"
 
 namespace totorrent {
 

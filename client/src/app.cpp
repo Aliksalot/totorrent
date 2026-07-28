@@ -1,8 +1,5 @@
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
 #include"third-party/cmdargs.h"
-#pragma GCC diagnostic pop
 
 #include"app.h"
 
@@ -11,32 +8,33 @@ namespace totorrent {
     cl_.add("search")
       .arg(cmdargs::CommandArgType::Required, "query", "Search query.")
       .describe("Search for movie titles")
-      .does([](
+      .does([this](
           const cmdargs::CommandArgs& args,
-          const cmdargs::CommandArgs&) {
+          const cmdargs::CommandArgs& flags) {
         std::cout << "searching " << args.valueOpt("query").value_or("what happened?") << std::endl;
+        handleSearch(args, flags);
       });
     cl_.add("get")
-      .arg(cmdargs::CommandArgType::Required,
-          "index", "Index of the movie in the search buffer.")
-      .flag(cmdargs::CommandFlagType::NoValue,
-          "id", "id", "Downloads movie via id, not index in search buffer.")
-      .describe("Downloads the specified movie. ")
+      .flag(cmdargs::CommandFlagType::WithValue,
+          "id", "id", "Downloads movie via id. ")
+      .flag(cmdargs::CommandFlagType::WithValue,
+          "index", "i", "Downloads movie via index in search list. ")
+      .describe("Downloads the specified movie. If there is no flag provided, it tries to download the last searched movie. ")
       .does([this](
-        const cmdargs::CommandArgs&,
-        const cmdargs::CommandArgs&) {
-          throw "TODO";
+        const cmdargs::CommandArgs& args,
+        const cmdargs::CommandArgs& flags) {
+          handleDownload(args, flags);
       });
     cl_.add("info")
-      .arg(cmdargs::CommandArgType::Required,
-          "index", "Index of the movie in the search buffer.")
-      .flag(cmdargs::CommandFlagType::NoValue,
-          "id", "id", "View movie info via id, not via index in search buffer")
-      .describe("Displays specified movie's description page. ")
+      .flag(cmdargs::CommandFlagType::WithValue,
+          "id", "id", "View movie info via id. ")
+      .flag(cmdargs::CommandFlagType::WithValue,
+          "index", "i", "View movie info via index in search list. ")
+      .describe("Displays specified movie's description page. If there is no flag provided, it tries to display the info for the last searched movie. ")
       .does([this](
-        const cmdargs::CommandArgs&,
-        const cmdargs::CommandArgs&) {
-          throw "TODO";
+        const cmdargs::CommandArgs& args,
+        const cmdargs::CommandArgs& flags) {
+          handleLookAt(args, flags);
       });
     cl_.add("done")
       .describe("Quits the program. ")
@@ -60,11 +58,11 @@ namespace totorrent {
 
   }
 
-  void App::handleSearch() {
+  void App::handleSearch(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs& flags) {
   }
-  void App::handleDownload() {
+  void App::handleDownload(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs& flags) {
   }
-  void App::handleLookAt() {
+  void App::handleLookAt(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs& flags) {
   }
 
 }
