@@ -2,12 +2,10 @@
 
 using namespace totorrent;
 
-int main() {
+int main(int argc, char** argv) {
   App app{};
   app.registerCommands();
   app.run();
-
-
 }
 
 //tot

@@ -36,12 +36,7 @@ namespace totorrent {
 
     std::cout << "  Search OK" << query << std::endl;
 
-    json j = json::array();
-    for(auto& si: sl) j.push_back(si.toJson());
-
-    std::cout << "  JSON-ing OK" << query << std::endl;
-
-    res.set_content(j.dump(), "application/json");
+    res.set_content(sl.toJson().dump(), "application/json");
   }
 
   void FileServer::handleGenerateTorrent(

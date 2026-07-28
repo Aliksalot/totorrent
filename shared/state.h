@@ -122,5 +122,24 @@ namespace totorrent {
 
   };
 
-  using SearchList = std::vector<SearchEntry>;
+  class SearchList : public std::vector<SearchEntry> {
+  public:
+    json toJson() {
+      json j = json::array();
+      for(const SearchEntry& entry: *this) {
+        j.push_back(entry.toJson());
+      }
+      return j;
+    }
+    
+    static SearchList fromJson(const json& j) {
+      SearchList out;
+      out.reserve(j.size());
+      for(const auto& item: j) {
+        out.push_back(SearchEntry::fromJson(item));
+      }
+
+      return out;
+    }
+  };
 }

@@ -5,6 +5,7 @@
 
 namespace totorrent {
   void App::registerCommands() {
+
     cl_.add("search")
       .arg(cmdargs::CommandArgType::Required, "query", "Search query.")
       .describe("Search for movie titles")
@@ -14,6 +15,7 @@ namespace totorrent {
         std::cout << "searching " << args.valueOpt("query").value_or("what happened?") << std::endl;
         handleSearch(args, flags);
       });
+
     cl_.add("get")
       .flag(cmdargs::CommandFlagType::WithValue,
           "id", "id", "Downloads movie via id. ")
@@ -25,6 +27,7 @@ namespace totorrent {
         const cmdargs::CommandArgs& flags) {
           handleDownload(args, flags);
       });
+
     cl_.add("info")
       .flag(cmdargs::CommandFlagType::WithValue,
           "id", "id", "View movie info via id. ")
@@ -36,6 +39,7 @@ namespace totorrent {
         const cmdargs::CommandArgs& flags) {
           handleLookAt(args, flags);
       });
+
     cl_.add("done")
       .describe("Quits the program. ")
       .does([this](
@@ -43,6 +47,7 @@ namespace totorrent {
         const cmdargs::CommandArgs&) {
         this->running = false;
       });
+
     cl_.includeHelp();
   }
 
@@ -58,7 +63,21 @@ namespace totorrent {
 
   }
 
-  void App::handleSearch(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs& flags) {
+  void App::handleSearch(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs&) {
+    std::string query = args.value("query");
+
+    bool result = client_.search(query);
+    if(!result) {
+      std::cout << "Couldn't execute search. " << std::endl;
+      return;
+    }
+
+    auto sl = client_.getSearchList();
+
+    for(const auto& si: sl) {
+      std::cout << si.toJson().dump() << std::endl;
+    }
+
   }
   void App::handleDownload(const cmdargs::CommandArgs& args, const cmdargs::CommandArgs& flags) {
   }

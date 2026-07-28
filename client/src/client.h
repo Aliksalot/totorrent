@@ -2,6 +2,7 @@
 
 #include<vector>
 #include"../../shared/state.h"
+#include"../../shared/httpclient.h"
 
 namespace totorrent {
 
@@ -9,7 +10,9 @@ namespace totorrent {
 
     enum class PromptType {
       Id, Index
-    }
+    };
+
+  public:
 
     bool installTorrent(PromptType t, uint64_t q);
 
@@ -23,15 +26,16 @@ namespace totorrent {
       return sl_;
     }
 
-    const TorrentPag& getLastSearched() const {
+    const TorrentPage& getLastSearched() const {
       return lastSearchedTorrent_;
     }
 
-    private:
-      std::string torrentInstallationUid;
-      //Result of last keyword search
-      SearchList sl_;
-      //Result of last torrent lookup
-      TorrentPage lastSearchedTorrent_;
-  }
+  private:
+    std::string torrentInstallationUid_;
+    //Result of last keyword search
+    SearchList sl_;
+    //Result of last torrent lookup
+    TorrentPage lastSearchedTorrent_;
+    HttpClient httpClient_;
+  };
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include"third-party/cmdargs.h"
+#include"client.h"
 
 namespace totorrent {
 
@@ -18,6 +19,8 @@ namespace totorrent {
 
     cmdargs::CommandList<4> cl_;
     bool running = false;
+
+    Client client_;
   };
 
 }
